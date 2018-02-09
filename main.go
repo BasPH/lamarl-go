@@ -1,22 +1,27 @@
 package main
 
 import (
-	"io/ioutil"
-
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
+	"fmt"
 )
 
-func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
+type SimulationInput struct {
+	Nsimulations int      `json:"nsimulations"`
+	Order        []string `json:"order"`
+}
 
-	index, err := ioutil.ReadFile("public/index.html")
-	if err != nil {
-		return events.APIGatewayProxyResponse{}, err
-	}
+type Response struct {
+	Result int `json:"result"`
+}
+
+func handler(request SimulationInput) (events.APIGatewayProxyResponse, error) {
+
+	fmt.Println(request)
 
 	return events.APIGatewayProxyResponse{
 		StatusCode: 200,
-		Body:       string(index),
+		Body:       "hello!!",
 		Headers: map[string]string{
 			"Content-Type": "text/html",
 		},
