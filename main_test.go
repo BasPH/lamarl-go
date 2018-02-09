@@ -3,16 +3,17 @@ package main
 import (
 	"github.com/stretchr/testify/assert"
 	"testing"
+	"github.com/aws/aws-lambda-go/events"
 )
 
 func TestHandler(t *testing.T) {
 	tests := []struct {
-		request SimulationInput
+		request events.APIGatewayProxyRequest
 		expect  string
 		err     error
 	}{
 		{
-			request: SimulationInput{20, []string{"1", "2", "3"}},
+			request: events.APIGatewayProxyRequest{Body: "{\"nsimulations\":20,\"order\":[\"1\",\"2\",\"3\"]}"},
 			expect:  "{\"nsimulations\":20,\"order\":[\"1\",\"2\",\"3\"]}",
 			err:     nil,
 		},
