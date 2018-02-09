@@ -1,8 +1,6 @@
 package main
 
 import (
-	"encoding/json"
-	"fmt"
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
 )
@@ -19,17 +17,20 @@ type Response struct {
 }
 
 // Handler docs
-func Handler(request SimulationInput) (events.APIGatewayProxyResponse, error) {
+func Handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
 
-	b, err := json.Marshal(request)
-	if err != nil {
-		fmt.Println(err)
-	}
-	fmt.Println(string(b))
+	//
+	//
+	//
+	//b, err := json.Marshal(request)
+	//if err != nil {
+	//	fmt.Println(err)
+	//}
+	//fmt.Println(string(b))
 
 	return events.APIGatewayProxyResponse{
 		StatusCode: 200,
-		Body:       string(b),
+		Body:       request.Body,
 		Headers: map[string]string{
 			"Content-Type": "text/html",
 		},
