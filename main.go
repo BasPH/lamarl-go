@@ -6,11 +6,13 @@ import (
 	"fmt"
 )
 
+// SimulationInput docs
 type SimulationInput struct {
 	Nsimulations int      `json:"nsimulations"`
 	Order        []string `json:"order"`
 }
 
+// Response docs
 type Response struct {
 	Result int `json:"result"`
 }
