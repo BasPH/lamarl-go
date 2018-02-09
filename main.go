@@ -4,6 +4,7 @@ import (
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
 	"fmt"
+	"encoding/json"
 )
 
 // SimulationInput docs
@@ -19,11 +20,15 @@ type Response struct {
 
 func handler(request SimulationInput) (events.APIGatewayProxyResponse, error) {
 
-	fmt.Println(request)
+	b, err := json.Marshal(request)
+	if err != nil {
+		fmt.Println(err)
+	}
+	fmt.Println(b)
 
 	return events.APIGatewayProxyResponse{
 		StatusCode: 200,
-		Body:       "hello!!",
+		Body:       string(b),
 		Headers: map[string]string{
 			"Content-Type": "text/html",
 		},
