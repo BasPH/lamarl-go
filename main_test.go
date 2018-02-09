@@ -14,7 +14,7 @@ func TestHandler(t *testing.T) {
 	}{
 		{
 			request: events.APIGatewayProxyRequest{Body: "{\"nsimulations\":20,\"order\":[\"1\",\"2\",\"3\"]}"},
-			expect:  "{\"nsimulations\":20,\"order\":[\"1\",\"2\",\"3\"]}",
+			expect:  "20",
 			err:     nil,
 		},
 	}

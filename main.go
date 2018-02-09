@@ -5,6 +5,7 @@ import (
 	"github.com/aws/aws-lambda-go/lambda"
 	"encoding/json"
 	"fmt"
+	"strconv"
 )
 
 // SimulationInput docs
@@ -24,14 +25,12 @@ func Handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	bytes := []byte(request.Body)
 	var simulationInput SimulationInput
 	json.Unmarshal(bytes, &simulationInput)
-	fmt.Println(simulationInput)
+	result := simulationInput.Nsimulations
+	fmt.Println(result)
 
 	return events.APIGatewayProxyResponse{
 		StatusCode: 200,
-		Body:       string(simulationInput.Nsimulations),
-		Headers: map[string]string{
-			"Content-Type": "text/html",
-		},
+		Body:       strconv.Itoa(result),
 	}, nil
 }
 
