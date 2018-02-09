@@ -1,9 +1,9 @@
 package main_test
 
 import (
-	"testing"
-	"github.com/stretchr/testify/assert"
 	"github.com/BasPH/lamarl-go"
+	"github.com/stretchr/testify/assert"
+	"testing"
 )
 
 func TestHandler(t *testing.T) {
