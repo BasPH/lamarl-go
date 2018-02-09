@@ -18,13 +18,14 @@ type Response struct {
 	Result int `json:"result"`
 }
 
-func handler(request SimulationInput) (events.APIGatewayProxyResponse, error) {
+// Handler docs
+func Handler(request SimulationInput) (events.APIGatewayProxyResponse, error) {
 
 	b, err := json.Marshal(request)
 	if err != nil {
 		fmt.Println(err)
 	}
-	fmt.Println(b)
+	fmt.Println(string(b))
 
 	return events.APIGatewayProxyResponse{
 		StatusCode: 200,
@@ -37,5 +38,5 @@ func handler(request SimulationInput) (events.APIGatewayProxyResponse, error) {
 }
 
 func main() {
-	lambda.Start(handler)
+	lambda.Start(Handler)
 }
