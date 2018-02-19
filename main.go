@@ -1,17 +1,22 @@
 package main
 
 import (
-	"github.com/aws/aws-lambda-go/events"
-	"github.com/aws/aws-lambda-go/lambda"
 	"encoding/json"
 	"fmt"
 	"strconv"
+
+	"github.com/aws/aws-lambda-go/events"
+	"github.com/aws/aws-lambda-go/lambda"
+	"github.com/op/go-logging"
 )
+
+var log = logging.MustGetLogger("example")
+var format = logging.MustStringFormatter(`%{color}%{time:15:04:05.000} %{shortfunc} ▶ %{level:.4s} %{id:03x}%{color:reset} %{message}`)
 
 // SimulationInput docs
 type SimulationInput struct {
-	Nsimulations int      `json:"nsimulations"`
 	Order        []string `json:"order"`
+	Nsimulations int      `json:"nsimulations"`
 }
 
 // Response docs
