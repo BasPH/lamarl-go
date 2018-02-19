@@ -179,6 +179,6 @@ func main() {
 	order := []string{"maki-1", "maki-2", "maki-3", "sashimi", "egg", "salmon", "squid", "wasabi", "pudding", "tempura", "dumpling", "tofu", "eel", "temaki"}
 	simulateSingleGame(order)
 	start := time.Now()
-	fmt.Print(SimulateGames(order, 200000))
+	fmt.Println(SimulateGames(order, 200000))
 	fmt.Printf("time taken: %s", time.Since(start))
 }
