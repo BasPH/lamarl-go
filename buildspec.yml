@@ -1,5 +1,9 @@
 version: 0.2
 
+environment_variables:
+  plaintext:
+    GO_VERSION: "1.8.1"
+
 phases:
 
   install:
