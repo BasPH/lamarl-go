@@ -2,7 +2,6 @@ package main
 
 import (
 	"math/rand"
-	"sort"
 	"math"
 )
 
@@ -135,9 +134,20 @@ func SimulateSingleGame(cards []string) int {
 
 	for len(tablePlayer) < 13 {
 		// Shuffle cards
-		sort.Slice(handPlayer, func(i, j int) bool {
-			return cardsOrdered[handPlayer[i]] < cardsOrdered[handPlayer[j]]
-		})
+		// Unfortunately AWS CodeBuild uses Go 1.7.3. sort.Slice is 1.8.
+		//sort.Slice(handPlayer, func(i, j int) bool {
+		//	return cardsOrdered[handPlayer[i]] < cardsOrdered[handPlayer[j]]
+		//})
+
+		// Implemented sort myself which is probably much slower (https://play.golang.org/p/uYT2XlPwwFs)
+		for i := 0; i < len(handPlayer)-1; i++ {
+			for j := i+1; j < len(handPlayer); j++ {
+				if cardsOrdered[handPlayer[i]] > cardsOrdered[handPlayer[j]] {
+					handPlayer[i], handPlayer[j] = handPlayer[j], handPlayer[i]
+				}
+			}
+		}
+
 		shuffleCards(handOpponent)
 
 		// Put cards on the table
