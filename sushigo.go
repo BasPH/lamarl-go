@@ -102,27 +102,28 @@ func scoreTable(thisTable []string, thatTable []string) int {
 		score += 3
 	}
 
-	num_sashimi := countOccurences(thisTable, "sashimi")
-	score += int(math.Floor(float64(num_sashimi)/3) * 10)
+	numSashimi := countOccurences(thisTable, "sashimi")
+	score += int(math.Floor(float64(numSashimi)/3) * 10)
 
-	num_tempura := countOccurences(thisTable, "tempura")
-	score += int(math.Floor(float64(num_tempura)/3) * 10)
+	numTempura := countOccurences(thisTable, "tempura")
+	score += int(math.Floor(float64(numTempura)/3) * 10)
 
-	num_dumpling := countOccurences(thisTable, "tempura")
-	dumpling_scores := []int{0, 1, 3, 6, 10, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15}
-	score += dumpling_scores[num_dumpling]
+	numDumpling := countOccurences(thisTable, "tempura")
+	dumplingScores := []int{0, 1, 3, 6, 10, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15}
+	score += dumplingScores[numDumpling]
 
-	num_tofu := countOccurences(thisTable, "tempura")
-	tofu_scores := []int{0, 2, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
-	score += tofu_scores[num_tofu]
+	numTofu := countOccurences(thisTable, "tempura")
+	tofuScores := []int{0, 2, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
+	score += tofuScores[numTofu]
 
-	num_eel := countOccurences(thisTable, "tempura")
-	eel_scores := []int{0, -3, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7}
-	score += eel_scores[num_eel]
+	numEel := countOccurences(thisTable, "tempura")
+	eelScores := []int{0, -3, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7}
+	score += eelScores[numEel]
 
 	return score
 }
 
+// SimulateSingleGame docs
 func SimulateSingleGame(cards []string) int {
 	cardsOrdered := indexCards(cards)
 
@@ -139,7 +140,7 @@ func SimulateSingleGame(cards []string) int {
 		//	return cardsOrdered[handPlayer[i]] < cardsOrdered[handPlayer[j]]
 		//})
 
-		// Implemented sort myself which is probably much slower (https://play.golang.org/p/uYT2XlPwwFs)
+		// Implemented sort myself which is probably much slower (https://play.golang.org/p/ot1CxnxdW70)
 		for i := 0; i < len(handPlayer)-1; i++ {
 			for j := i+1; j < len(handPlayer); j++ {
 				if cardsOrdered[handPlayer[i]] > cardsOrdered[handPlayer[j]] {
@@ -175,9 +176,10 @@ func SimulateSingleGame(cards []string) int {
 	return 0
 }
 
-func SimulateGames(order []string, n_sim int) int {
+// SimulateGames docs
+func SimulateGames(order []string, nSim int) int {
 	count := 0
-	for i := 1; i <= n_sim; i++ {
+	for i := 1; i <= nSim; i++ {
 		count += SimulateSingleGame(order)
 	}
 	return count
