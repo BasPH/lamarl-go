@@ -4,8 +4,6 @@ import (
 	"math/rand"
 	"sort"
 	"math"
-	"time"
-	"fmt"
 )
 
 var sushiGoCards = map[string](int){
@@ -126,14 +124,14 @@ func scoreTable(thisTable []string, thatTable []string) int {
 	return score
 }
 
-func simulateSingleGame(cards []string) int {
+func SimulateSingleGame(cards []string) int {
 	cardsOrdered := indexCards(cards)
 
 	handPlayer := generateHand()
 	handOpponent := generateHand()
 
-	tablePlayer := []string{}
-	tableOpponent := []string{}
+	var tablePlayer []string
+	var tableOpponent []string
 
 	for len(tablePlayer) < 13 {
 		// Shuffle cards
@@ -170,15 +168,15 @@ func simulateSingleGame(cards []string) int {
 func SimulateGames(order []string, n_sim int) int {
 	count := 0
 	for i := 1; i <= n_sim; i++ {
-		count += simulateSingleGame(order)
+		count += SimulateSingleGame(order)
 	}
 	return count
 }
 
-func main() {
-	order := []string{"maki-1", "maki-2", "maki-3", "sashimi", "egg", "salmon", "squid", "wasabi", "pudding", "tempura", "dumpling", "tofu", "eel", "temaki"}
-	simulateSingleGame(order)
-	start := time.Now()
-	fmt.Println(SimulateGames(order, 200000))
-	fmt.Printf("time taken: %s", time.Since(start))
-}
+//func main() {
+//	order := []string{"maki-1", "maki-2", "maki-3", "sashimi", "egg", "salmon", "squid", "wasabi", "pudding", "tempura", "dumpling", "tofu", "eel", "temaki"}
+//	SimulateSingleGame(order)
+//	start := time.Now()
+//	fmt.Println(SimulateGames(order, 200000))
+//	fmt.Printf("time taken: %s", time.Since(start))
+//}

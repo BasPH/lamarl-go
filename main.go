@@ -2,21 +2,16 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 	"strconv"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
-	"github.com/op/go-logging"
+	"log"
 )
-
-var log = logging.MustGetLogger("example")
-var format = logging.MustStringFormatter(`%{color}%{time:15:04:05.000} %{shortfunc} ▶ %{level:.4s} %{id:03x}%{color:reset} %{message}`)
 
 // SimulationInput docs
 type SimulationInput struct {
-	Order        []string `json:"order"`
-	Nsimulations int      `json:"nsimulations"`
+	Order []string `json:"order"`
 }
 
 // Response docs
@@ -30,8 +25,10 @@ func Handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	bytes := []byte(request.Body)
 	var simulationInput SimulationInput
 	json.Unmarshal(bytes, &simulationInput)
-	result := simulationInput.Nsimulations
-	fmt.Println(result)
+	order := simulationInput.Order
+	result := SimulateSingleGame(order)
+
+	log.Printf("Received cards = %v, result = %v", order, result)
 
 	return events.APIGatewayProxyResponse{
 		StatusCode: 200,
