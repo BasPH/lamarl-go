@@ -12,6 +12,9 @@ phases:
       # Install golint
       - go get -u github.com/golang/lint/golint
 
+      # Print Go version
+      - go version
+
   pre_build:
     commands:
 
