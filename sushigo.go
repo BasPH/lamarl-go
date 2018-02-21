@@ -1,8 +1,8 @@
 package main
 
 import (
-	"math/rand"
 	"math"
+	"math/rand"
 )
 
 var sushiGoCards = map[string](int){
@@ -142,7 +142,7 @@ func SimulateSingleGame(cards []string) int {
 
 		// Implemented sort myself which is probably much slower (https://play.golang.org/p/ot1CxnxdW70)
 		for i := 0; i < len(handPlayer)-1; i++ {
-			for j := i+1; j < len(handPlayer); j++ {
+			for j := i + 1; j < len(handPlayer); j++ {
 				if cardsOrdered[handPlayer[i]] > cardsOrdered[handPlayer[j]] {
 					handPlayer[i], handPlayer[j] = handPlayer[j], handPlayer[i]
 				}
