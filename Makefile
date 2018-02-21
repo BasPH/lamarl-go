@@ -1,9 +1,8 @@
 SHELL := /bin/bash
 GOFILES = $(shell find . -type f -name '*.go' -not -path "./vendor/*")
 GIT_COMMIT=$(shell git rev-parse --short HEAD)
-IMAGE_NAME := basph/kraken-exporter
 
-.PHONY: all fmt vet lint build
+.PHONY: all fmt vet lint test build
 
 all: fmt vet lint build
 
@@ -15,3 +14,9 @@ vet:
 
 lint:
 	@for f in $(GOFILES); do golint $d; done
+
+build:
+	@GOOS=linux go build -o main
+
+test:
+	@go test
