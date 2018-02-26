@@ -16,6 +16,14 @@ func trackTime(start time.Time, name string) {
 	log.Printf("%s took %s", name, elapsed)
 }
 
+func sum(nums ...int) int {
+	total := 0
+	for _, num := range nums {
+		total += num
+	}
+	return total
+}
+
 func main() {
 	defer trackTime(time.Now(), "main()")
 	url := "https://azj3z8mlq6.execute-api.eu-west-1.amazonaws.com/Prod/"
@@ -46,5 +54,6 @@ func main() {
 	}
 
 	wg.Wait()
-	//fmt.Println(results)
+
+	log.Printf("Executed %v simulations, result = %v", nRequests, sum(results...))
 }
