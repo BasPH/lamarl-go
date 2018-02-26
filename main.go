@@ -26,9 +26,9 @@ func Handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	var simulationInput SimulationInput
 	json.Unmarshal(bytes, &simulationInput)
 	order := simulationInput.Order
-	result := SimulateSingleGame(order)
+	result, opponentHand := SimulateSingleGame(order)
 
-	log.Printf("Received cards = %v, result = %v", order, result)
+	log.Printf("Received cards = %v, result = %v, opponent hand = %v", order, result, opponentHand)
 
 	return events.APIGatewayProxyResponse{
 		StatusCode: 200,

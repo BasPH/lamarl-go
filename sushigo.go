@@ -125,11 +125,14 @@ func scoreTable(thisTable []string, thatTable []string) int {
 }
 
 // SimulateSingleGame docs
-func SimulateSingleGame(cards []string) int {
+func SimulateSingleGame(cards []string) (int, []string) {
 	cardsOrdered := indexCards(cards)
 
 	handPlayer := generateHand()
 	handOpponent := generateHand()
+
+	handOpponentCopy := make([]string, len(handOpponent))
+	copy(handOpponentCopy, handOpponent)
 
 	var tablePlayer []string
 	var tableOpponent []string
@@ -164,16 +167,17 @@ func SimulateSingleGame(cards []string) int {
 	//fmt.Printf("table_player: %v\n", table_player)
 	//fmt.Printf("table_other:  %v\n", table_other)
 	if scoreTable(tablePlayer, tableOpponent) > scoreTable(tableOpponent, tablePlayer) {
-		return 1
+		return 1, handOpponentCopy
 	}
-	return 0
+	return 0, handOpponentCopy
 }
 
 // SimulateGames docs
 func SimulateGames(order []string, nSim int) int {
 	count := 0
 	for i := 1; i <= nSim; i++ {
-		count += SimulateSingleGame(order)
+		result, _ := SimulateSingleGame(order)
+		count += result
 	}
 	return count
 }
