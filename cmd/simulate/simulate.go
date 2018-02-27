@@ -1,14 +1,14 @@
 package main
 
 import (
-	"net/http"
 	"bytes"
+	"fmt"
 	"io/ioutil"
+	"log"
+	"net/http"
 	"strconv"
 	"sync"
-	"fmt"
 	"time"
-	"log"
 )
 
 func trackTime(start time.Time, name string) {
@@ -41,7 +41,7 @@ func main() {
 			request := bytes.NewBuffer(cardOrder)
 			result, err := http.Post(url, "application/json", request)
 			if err != nil {
-				fmt.Println("Error: %v", err)
+				fmt.Printf("Error: %v", err)
 				failures += 1
 			} else {
 				body, err := ioutil.ReadAll(result.Body)
