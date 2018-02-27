@@ -33,6 +33,7 @@ func main() {
 	var wg sync.WaitGroup
 	wg.Add(nRequests)
 	results := make([]int, nRequests)
+	failures := 0
 
 	for i := 0; i < nRequests; i++ {
 		go func(url string, cardOrder []byte, i int) {
@@ -41,10 +42,12 @@ func main() {
 			result, err := http.Post(url, "application/json", request)
 			if err != nil {
 				fmt.Println("Error: %v", err)
+				failures += 1
 			} else {
 				body, err := ioutil.ReadAll(result.Body)
 				if err != nil {
 					fmt.Println(err)
+					failures += 1
 				} else {
 					r, _ := strconv.Atoi(string(body))
 					results[i] = r
@@ -55,5 +58,5 @@ func main() {
 
 	wg.Wait()
 
-	log.Printf("Executed %v simulations, result = %v", nRequests, sum(results...))
+	log.Printf("Executed %v simulations\nResult = %v\nFailures = %v\n\n", nRequests, sum(results...), failures)
 }
