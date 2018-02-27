@@ -25,4 +25,4 @@ update-lambda:
 	aws lambda update-function-code \
     	--function-name awscodestar-lamarl-go-lambda-GetHelloWorld-1KA3SG4UKTUCO \
     	--zip-file fileb://main.zip
-    rm main main.zip
+	rm main main.zip
