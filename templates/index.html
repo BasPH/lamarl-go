@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Sushi Go</title>
+    <link rel="stylesheet" type="text/css" href="static/sushigo.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+</head>
+<body>
+
+<div class="container">
+    <div class="row">
+        <div class=".col-lg-12">
+            <form id="simulate-form">
+                <div class="form-group">
+                    <label for="lambdaInput">Lambda message data</label>
+                    <input type="text" class="form-control" name="lambdaInput" id="lambdaInput"
+                           aria-describedby="lambdaInputHelp"
+                           placeholder="Enter Lambda input" value='{"order": ["maki-3", "maki-2", "maki-1", "sashimi", "egg", "salmon", "squid", "wasabi", "pudding", "tempura", "dumpling", "tofu", "eel", "temaki"]}'>
+                </div>
+                <button type="submit" class="btn btn-primary btn-lg" id="submit-simulate">Submit</button>
+            </form>
+
+            <div class="alert alert-info" id="simulate-result"></div>
+
+        {{/*<ul class="list-group" id="deck">*/}}
+        {{/*{{range .SushiGoCards}}*/}}
+        {{/*<li class="list-group-item">{{.Title}}</li>*/}}
+        {{/*{{end}}*/}}
+        {{/*</ul>*/}}
+        </div>
+    </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-sortable/0.9.13/jquery-sortable-min.js"></script>
+<script src="static/sushigo.js"></script>
+</body>
+</html>

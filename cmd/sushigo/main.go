@@ -1,19 +1,45 @@
 package main
 
 import (
-	"bytes"
+	"gopkg.in/alecthomas/kingpin.v2"
 	"fmt"
-	"io/ioutil"
-	"log"
 	"net/http"
-	"strconv"
-	"sync"
+	"github.com/gorilla/mux"
 	"time"
+	"log"
+	"os/signal"
+	"os"
+	"context"
+	"html/template"
+	"sync"
+	"io/ioutil"
+	"strconv"
+	"strings"
 )
 
-func trackTime(start time.Time, name string) {
-	elapsed := time.Since(start)
-	log.Printf("%s took %s", name, elapsed)
+var (
+	port = kingpin.Flag("port", "Port number").Short('p').Default("8080").Int()
+)
+
+type SushiGoCard struct {
+	Title   string
+	ImgPath string
+}
+
+type PageData struct {
+	SushiGoCards []SushiGoCard
+}
+
+func indexHandler(w http.ResponseWriter, r *http.Request) {
+	pageData := PageData{
+		SushiGoCards: []SushiGoCard{
+			{"Chopsticks", "/static/img/chopsticks.png"},
+			{"Dumpling", "/static/img/dumpling.png"},
+		},
+	}
+
+	tmpl := template.Must(template.ParseFiles("templates/index.html"))
+	tmpl.Execute(w, pageData)
 }
 
 func sum(nums ...int) int {
@@ -24,22 +50,22 @@ func sum(nums ...int) int {
 	return total
 }
 
-func main() {
-	defer trackTime(time.Now(), "main()")
-	url := "https://azj3z8mlq6.execute-api.eu-west-1.amazonaws.com/Prod/"
-	cardOrder := []byte(`{"order": ["maki-3", "maki-2", "maki-1", "sashimi", "egg", "salmon", "squid", "wasabi", "pudding", "tempura", "dumpling", "tofu", "eel", "temaki"]}`)
-	nRequests := 100
+func simulateHandler(w http.ResponseWriter, r *http.Request) {
+	r.ParseForm()
+	input := r.Form["lambdaInput"][0]
 
+	url := "https://azj3z8mlq6.execute-api.eu-west-1.amazonaws.com/Prod/"
+	nRequests := 100
 	var wg sync.WaitGroup
 	wg.Add(nRequests)
 	results := make([]int, nRequests)
 	failures := 0
 
+	start := time.Now()
 	for i := 0; i < nRequests; i++ {
-		go func(url string, cardOrder []byte, i int) {
+		go func(url string, cardOrder string, i int) {
 			defer wg.Done()
-			request := bytes.NewBuffer(cardOrder)
-			result, err := http.Post(url, "application/json", request)
+			result, err := http.Post(url, "application/json", strings.NewReader(cardOrder))
 			if err != nil {
 				fmt.Printf("Error: %v", err)
 				failures += 1
@@ -53,10 +79,58 @@ func main() {
 					results[i] = r
 				}
 			}
-		}(url, cardOrder, i)
+		}(url, input, i)
 	}
 
 	wg.Wait()
+	elapsed := time.Since(start)
+	w.Write([]byte(fmt.Sprintf(
+		"Executed %v simulations. "+
+			"Result = %v. "+
+			"Failures = %v. "+
+			"Duration = %v.",
+		nRequests, sum(results...), failures, elapsed,
+	)))
+}
 
-	log.Printf("Executed %v simulations\nResult = %v\nFailures = %v\n\n", nRequests, sum(results...), failures)
+func logRequests(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		log.Println(r.RequestURI)
+		next.ServeHTTP(w, r)
+	})
+}
+
+func main() {
+	kingpin.Parse()
+
+	r := mux.NewRouter()
+	r.Use(logRequests)
+	r.PathPrefix("/static/").Handler(http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
+	r.HandleFunc("/", indexHandler)
+	r.HandleFunc("/simulate", simulateHandler)
+
+	srv := &http.Server{
+		Addr:         fmt.Sprintf("0.0.0.0:%v", *port),
+		WriteTimeout: time.Second * 15,
+		ReadTimeout:  time.Second * 15,
+		IdleTimeout:  time.Second * 60,
+		Handler:      r,
+	}
+
+	// Graceful shutdown. See https://github.com/gorilla/mux#graceful-shutdown
+	go func() {
+		if err := srv.ListenAndServe(); err != nil {
+			log.Println(err)
+		}
+	}()
+
+	c := make(chan os.Signal, 1)
+	signal.Notify(c, os.Interrupt)
+	<-c
+
+	ctx, cancel := context.WithTimeout(context.Background(), time.Minute*1)
+	defer cancel()
+	srv.Shutdown(ctx)
+	log.Println("Sushi Go shutting down.")
+	os.Exit(0)
 }
