@@ -27,8 +27,8 @@ func sum(nums ...int) int {
 func main() {
 	defer trackTime(time.Now(), "main()")
 	url := "https://azj3z8mlq6.execute-api.eu-west-1.amazonaws.com/Prod/"
-	cardOrder := []byte(`{"order": ["maki-1", "maki-2", "maki-3", "sashimi", "egg", "salmon", "squid", "wasabi", "pudding", "tempura", "dumpling", "tofu", "eel", "temaki"]}`)
-	nRequests := 1000
+	cardOrder := []byte(`{"order": ["maki-3", "maki-2", "maki-1", "sashimi", "egg", "salmon", "squid", "wasabi", "pudding", "tempura", "dumpling", "tofu", "eel", "temaki"]}`)
+	nRequests := 100
 
 	var wg sync.WaitGroup
 	wg.Add(nRequests)

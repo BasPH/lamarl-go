@@ -1,6 +1,7 @@
 package main
 
 import (
+	"log"
 	"math"
 	"math/rand"
 	"sort"
@@ -126,13 +127,14 @@ func scoreTable(thisTable []string, thatTable []string) int {
 
 // SimulateSingleGame docs
 func SimulateSingleGame(cards []string) (int, []string) {
+	log.Printf("Player cards = %v", cards)
 	cardsOrdered := indexCards(cards)
+	log.Printf("Player cards ordered = %v", cardsOrdered)
 
 	handPlayer := generateHand()
+	log.Printf("Generated player's hand = %v", handPlayer)
 	handOpponent := generateHand()
-
-	handOpponentCopy := make([]string, len(handOpponent))
-	copy(handOpponentCopy, handOpponent)
+	log.Printf("Generated opponent's hand  = %v", handOpponent)
 
 	var tablePlayer []string
 	var tableOpponent []string
@@ -146,30 +148,33 @@ func SimulateSingleGame(cards []string) (int, []string) {
 		})
 
 		shuffleCards(handOpponent)
+		log.Printf("Shuffled opponent's hand  = %v", handOpponent)
 
 		// Put cards on the table
 		selectedPlayer := handPlayer[len(handPlayer)-1]
 		handPlayer = handPlayer[:len(handPlayer)-1]
 		tablePlayer = append(tablePlayer, selectedPlayer)
+		log.Printf("Selected, hand & table player = %v, %v, %v", selectedPlayer, handPlayer, tablePlayer)
+
 		selectedOpponent := handOpponent[len(handOpponent)-1]
 		handOpponent = handOpponent[:len(handOpponent)-1]
 		tableOpponent = append(tableOpponent, selectedOpponent)
+		log.Printf("Selected, hand & table opponent = %v, %v, %v", selectedOpponent, handOpponent, tableOpponent)
 
 		// Pass cards to each other
 		handPlayer, handOpponent = handOpponent, handPlayer
+		log.Printf("Passed cards. Hands are now: player = %v, opponent = %v", handPlayer, handOpponent)
 	}
 
 	tablePlayer = append(tablePlayer, handPlayer[len(handPlayer)-1])
 	tableOpponent = append(tableOpponent, handOpponent[len(handOpponent)-1])
+	log.Printf("Table player: %v", tablePlayer)
+	log.Printf("Table opponent: %v", tableOpponent)
 
-	tablePlayer = append(tablePlayer, handPlayer[len(handPlayer)-1])
-	tableOpponent = append(tableOpponent, handOpponent[len(handOpponent)-1])
-	//fmt.Printf("table_player: %v\n", table_player)
-	//fmt.Printf("table_other:  %v\n", table_other)
 	if scoreTable(tablePlayer, tableOpponent) > scoreTable(tableOpponent, tablePlayer) {
-		return 1, handOpponentCopy
+		return 1, tableOpponent
 	}
-	return 0, handOpponentCopy
+	return 0, tableOpponent
 }
 
 // SimulateGames docs
@@ -181,11 +186,3 @@ func SimulateGames(order []string, nSim int) int {
 	}
 	return count
 }
-
-//func main() {
-//	order := []string{"maki-1", "maki-2", "maki-3", "sashimi", "egg", "salmon", "squid", "wasabi", "pudding", "tempura", "dumpling", "tofu", "eel", "temaki"}
-//	SimulateSingleGame(order)
-//	start := time.Now()
-//	fmt.Println(SimulateGames(order, 200000))
-//	fmt.Printf("time taken: %s", time.Since(start))
-//}
