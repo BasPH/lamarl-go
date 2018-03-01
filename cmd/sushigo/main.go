@@ -53,16 +53,16 @@ func sum(nums ...int) int {
 func simulateHandler(w http.ResponseWriter, r *http.Request) {
 	r.ParseForm()
 	input := r.Form["lambdaInput"][0]
+	nSimulations, _ := strconv.Atoi(r.Form["lambdaSimulations"][0])
 
 	url := "https://azj3z8mlq6.execute-api.eu-west-1.amazonaws.com/Prod/"
-	nRequests := 100
 	var wg sync.WaitGroup
-	wg.Add(nRequests)
-	results := make([]int, nRequests)
+	wg.Add(nSimulations)
+	results := make([]int, nSimulations)
 	failures := 0
 
 	start := time.Now()
-	for i := 0; i < nRequests; i++ {
+	for i := 0; i < nSimulations; i++ {
 		go func(url string, cardOrder string, i int) {
 			defer wg.Done()
 			result, err := http.Post(url, "application/json", strings.NewReader(cardOrder))
@@ -89,7 +89,7 @@ func simulateHandler(w http.ResponseWriter, r *http.Request) {
 			"Result = %v. "+
 			"Failures = %v. "+
 			"Duration = %v.",
-		nRequests, sum(results...), failures, elapsed,
+		nSimulations, sum(results...), failures, elapsed,
 	)))
 }
 

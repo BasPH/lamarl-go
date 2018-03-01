@@ -23,17 +23,16 @@
                     <input type="text" class="form-control" name="lambdaInput" id="lambdaInput"
                            aria-describedby="lambdaInputHelp"
                            placeholder="Enter Lambda input" value='{"order": ["maki-3", "maki-2", "maki-1", "sashimi", "egg", "salmon", "squid", "wasabi", "pudding", "tempura", "dumpling", "tofu", "eel", "temaki"]}'>
+
+                    <label for="lambdaSimulations"># of simulations</label>
+                    <input type="text" class="form-control" name="lambdaSimulations" id="lambdaSimulations"
+                           aria-describedby="lambdaSimulationsHelp"
+                           placeholder="# of simulations">
                 </div>
                 <button type="submit" class="btn btn-primary btn-lg" id="submit-simulate">Submit</button>
             </form>
 
             <div class="alert alert-info" id="simulate-result"></div>
-
-        {{/*<ul class="list-group" id="deck">*/}}
-        {{/*{{range .SushiGoCards}}*/}}
-        {{/*<li class="list-group-item">{{.Title}}</li>*/}}
-        {{/*{{end}}*/}}
-        {{/*</ul>*/}}
         </div>
     </div>
 </div>
