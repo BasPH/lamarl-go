@@ -1,20 +1,20 @@
 package main
 
 import (
-	"gopkg.in/alecthomas/kingpin.v2"
-	"fmt"
-	"net/http"
-	"github.com/gorilla/mux"
-	"time"
-	"log"
-	"os/signal"
-	"os"
 	"context"
+	"fmt"
+	"github.com/gorilla/mux"
+	"gopkg.in/alecthomas/kingpin.v2"
 	"html/template"
-	"sync"
 	"io/ioutil"
+	"log"
+	"net/http"
+	"os"
+	"os/signal"
 	"strconv"
 	"strings"
+	"sync"
+	"time"
 )
 
 var (
