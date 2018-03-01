@@ -15,7 +15,8 @@ lint:
 	for f in $(GOFILES); do golint $f; done
 
 build:
-	GOOS=linux go build -o main
+	GOOS=linux go build -o main cmd/lambda/*
+	go build cmd/sushigo/*
 
 test:
 	go test
