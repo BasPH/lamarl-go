@@ -11,6 +11,8 @@
           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
           integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css"
+          href="https://cdnjs.cloudflare.com/ajax/libs/Ladda/1.0.6/ladda-themeless.min.css">
 </head>
 <body>
 
@@ -22,7 +24,8 @@
                     <label for="lambdaInput">Lambda message data</label>
                     <input type="text" class="form-control" name="lambdaInput" id="lambdaInput"
                            aria-describedby="lambdaInputHelp"
-                           placeholder="Enter Lambda input" value='"maki-3", "maki-2", "maki-1", "sashimi", "egg", "salmon", "squid", "wasabi", "pudding", "tempura", "dumpling", "tofu", "eel", "temaki"'>
+                           placeholder="Enter Lambda input"
+                           value='"maki-3", "maki-2", "maki-1", "sashimi", "egg", "salmon", "squid", "wasabi", "pudding", "tempura", "dumpling", "tofu", "eel", "temaki"'>
 
                     <label for="lambdaSimulations"># of simulations</label>
                     <input type="text" class="form-control" name="lambdaSimulations" id="lambdaSimulations"
@@ -34,7 +37,9 @@
                            aria-describedby="lambdaGamesHelp"
                            placeholder="# of games">
                 </div>
-                <button type="submit" class="btn btn-primary btn-lg" id="submit-simulate">Submit</button>
+                <button type="submit" class="btn btn-primary btn-lg ladda-button" data-style="zoom-in"
+                        id="submit-simulate">Submit
+                </button>
             </form>
 
             <div class="alert alert-info" id="simulate-result"></div>
@@ -46,7 +51,8 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
         integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
         crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-sortable/0.9.13/jquery-sortable-min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Ladda/1.0.6/spin.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Ladda/1.0.6/ladda.min.js"></script>
 <script src="static/sushigo.js"></script>
 </body>
 </html>
