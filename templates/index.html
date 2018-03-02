@@ -22,12 +22,17 @@
                     <label for="lambdaInput">Lambda message data</label>
                     <input type="text" class="form-control" name="lambdaInput" id="lambdaInput"
                            aria-describedby="lambdaInputHelp"
-                           placeholder="Enter Lambda input" value='{"order": ["maki-3", "maki-2", "maki-1", "sashimi", "egg", "salmon", "squid", "wasabi", "pudding", "tempura", "dumpling", "tofu", "eel", "temaki"]}'>
+                           placeholder="Enter Lambda input" value='"maki-3", "maki-2", "maki-1", "sashimi", "egg", "salmon", "squid", "wasabi", "pudding", "tempura", "dumpling", "tofu", "eel", "temaki"'>
 
                     <label for="lambdaSimulations"># of simulations</label>
                     <input type="text" class="form-control" name="lambdaSimulations" id="lambdaSimulations"
                            aria-describedby="lambdaSimulationsHelp"
                            placeholder="# of simulations">
+
+                    <label for="lambdaGames"># of games</label>
+                    <input type="text" class="form-control" name="lambdaGames" id="lambdaGames"
+                           aria-describedby="lambdaGamesHelp"
+                           placeholder="# of games">
                 </div>
                 <button type="submit" class="btn btn-primary btn-lg" id="submit-simulate">Submit</button>
             </form>

@@ -15,6 +15,9 @@ import (
 	"strings"
 	"sync"
 	"time"
+	"github.com/BasPH/lamarl-go/sushigo"
+	"encoding/json"
+	"bytes"
 )
 
 var (
@@ -52,20 +55,31 @@ func sum(nums ...int) int {
 
 func simulateHandler(w http.ResponseWriter, r *http.Request) {
 	r.ParseForm()
-	input := r.Form["lambdaInput"][0]
+
+	inputString := r.Form["lambdaInput"][0]
+	var inputCards []string
+	dec := json.NewDecoder(strings.NewReader(inputString))
+	dec.Decode(&inputCards)
 	nSimulations, _ := strconv.Atoi(r.Form["lambdaSimulations"][0])
+	nGames, _ := strconv.Atoi(r.Form["lambdaGames"][0])
+
+	simulationInput := sushigo.SimulationInput{
+		Order:        inputCards,
+		Nsimulations: nSimulations,
+	}
+	j, _ := json.Marshal(simulationInput)
 
 	url := "https://azj3z8mlq6.execute-api.eu-west-1.amazonaws.com/Prod/"
 	var wg sync.WaitGroup
-	wg.Add(nSimulations)
-	results := make([]int, nSimulations)
+	wg.Add(nGames)
+	results := make([]int, nGames)
 	failures := 0
 
 	start := time.Now()
-	for i := 0; i < nSimulations; i++ {
-		go func(url string, cardOrder string, i int) {
+	for i := 0; i < nGames; i++ {
+		go func(url string, simulationInput []byte, nSimulations int, i int) {
 			defer wg.Done()
-			result, err := http.Post(url, "application/json", strings.NewReader(cardOrder))
+			result, err := http.Post(url, "application/json", bytes.NewBuffer(j))
 			if err != nil {
 				fmt.Printf("Error: %v", err)
 				failures += 1
@@ -79,17 +93,17 @@ func simulateHandler(w http.ResponseWriter, r *http.Request) {
 					results[i] = r
 				}
 			}
-		}(url, input, i)
+		}(url, j, nSimulations, i)
 	}
 
 	wg.Wait()
 	elapsed := time.Since(start)
 	w.Write([]byte(fmt.Sprintf(
-		"Executed %v simulations. "+
+		"Executed %v games with %v simulations each (total %v). "+
 			"Result = %v. "+
 			"Failures = %v. "+
 			"Duration = %v.",
-		nSimulations, sum(results...), failures, elapsed,
+		nGames, nSimulations, nGames*nSimulations, sum(results...), failures, elapsed,
 	)))
 }
 
