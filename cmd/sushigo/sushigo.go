@@ -131,6 +131,8 @@ func main() {
 		Handler:      r,
 	}
 
+	log.Printf("Sushi Go server listening on 0.0.0.0:%v", *port)
+
 	// Graceful shutdown. See https://github.com/gorilla/mux#graceful-shutdown
 	go func() {
 		if err := srv.ListenAndServe(); err != nil {
