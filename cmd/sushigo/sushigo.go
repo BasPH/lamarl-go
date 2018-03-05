@@ -1,8 +1,11 @@
 package main
 
 import (
+	"bytes"
 	"context"
+	"encoding/json"
 	"fmt"
+	"github.com/BasPH/lamarl-go/sushigo"
 	"github.com/gorilla/mux"
 	"gopkg.in/alecthomas/kingpin.v2"
 	"html/template"
@@ -15,9 +18,6 @@ import (
 	"strings"
 	"sync"
 	"time"
-	"github.com/BasPH/lamarl-go/sushigo"
-	"encoding/json"
-	"bytes"
 )
 
 var (

@@ -8,6 +8,7 @@ import (
 	"github.com/aws/aws-lambda-go/lambda"
 	"log"
 
+	"fmt"
 	"github.com/BasPH/lamarl-go/sushigo"
 )
 
@@ -22,10 +23,11 @@ func Handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	bytes := []byte(request.Body)
 	var simulationInput sushigo.SimulationInput
 	json.Unmarshal(bytes, &simulationInput)
-	result := SimulateGames(simulationInput.Order, simulationInput.Nsimulations)
-	//result, opponentTable := SimulateSingleGame(order)
+	if !simulationInput.ValidateCards() {
+		return events.APIGatewayProxyResponse{StatusCode: 400}, fmt.Errorf("invalid cards")
+	}
 
-	//log.Printf("Received cards = %v, result = %v, opponent's table = %v", order, result, opponentTable)
+	result := SimulateGames(simulationInput.Order, simulationInput.Nsimulations)
 	log.Printf("Received cards = %v, result = %v", simulationInput.Order, result)
 
 	return events.APIGatewayProxyResponse{

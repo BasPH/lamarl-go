@@ -1,28 +1,12 @@
 package main
 
 import (
+	"github.com/BasPH/lamarl-go/sushigo"
 	"log"
 	"math"
 	"math/rand"
 	"sort"
 )
-
-var sushiGoCards = map[string](int){
-	"maki-1":   5,
-	"maki-2":   5,
-	"maki-3":   5,
-	"sashimi":  5,
-	"egg":      5,
-	"salmon":   5,
-	"squid":    5,
-	"wasabi":   5,
-	"pudding":  5,
-	"tempura":  5,
-	"dumpling": 5,
-	"tofu":     5,
-	"eel":      5,
-	"temaki":   5,
-}
 
 func indexCards(cards []string) map[string]int {
 	cardIndex := make(map[string]int, len(cards))
@@ -48,7 +32,7 @@ func shuffleCards(cards []string) []string {
 func generateHand() []string {
 	var cards []string
 
-	for card, n := range sushiGoCards {
+	for card, n := range sushigo.SushiGoCards {
 		for i := 0; i < n; i++ {
 			cards = append(cards, card)
 		}
