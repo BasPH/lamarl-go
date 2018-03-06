@@ -168,7 +168,7 @@ func SimulateGames(order []string, nSim int) int {
 	wg.Add(nSim)
 	count := 0
 
-	for i := 1; i <= nSim; i++ {
+	for i := 0; i < nSim; i++ {
 		go func(order []string) {
 			defer wg.Done()
 			result, _ := SimulateSingleGame(order)
