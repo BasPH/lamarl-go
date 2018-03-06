@@ -1,6 +1,8 @@
 package main
 
 import (
+	"io/ioutil"
+	"log"
 	"testing"
 )
 
@@ -38,13 +40,18 @@ func BenchmarkShuffle1000(b *testing.B) { benchmarkShuffle(b) }
 
 func BenchmarkSimulateGames(b *testing.B) {
 	cards := generateHand()
+
+	// Disable logging output
+	log.SetFlags(0)
+	log.SetOutput(ioutil.Discard)
+
 	b.ResetTimer()
 	for n := 0; n < b.N; n++ {
 		SimulateGames(cards, n)
 	}
 }
 
-func BenchmarkSimulateGames1(b *testing.B)    { benchmarkShuffle(b) }
-func BenchmarkSimulateGames10(b *testing.B)   { benchmarkShuffle(b) }
-func BenchmarkSimulateGames100(b *testing.B)  { benchmarkShuffle(b) }
-func BenchmarkSimulateGames1000(b *testing.B) { benchmarkShuffle(b) }
+func BenchmarkSimulateGames1(b *testing.B)    { BenchmarkSimulateGames(b) }
+func BenchmarkSimulateGames10(b *testing.B)   { BenchmarkSimulateGames(b) }
+func BenchmarkSimulateGames100(b *testing.B)  { BenchmarkSimulateGames(b) }
+func BenchmarkSimulateGames1000(b *testing.B) { BenchmarkSimulateGames(b) }
