@@ -6,6 +6,7 @@ import (
 	"math"
 	"math/rand"
 	"sort"
+	"sync"
 )
 
 func indexCards(cards []string) map[string]int {
@@ -163,10 +164,18 @@ func SimulateSingleGame(cards []string) (int, []string) {
 
 // SimulateGames docs
 func SimulateGames(order []string, nSim int) int {
+	var wg sync.WaitGroup
+	wg.Add(nSim)
 	count := 0
+
 	for i := 1; i <= nSim; i++ {
-		result, _ := SimulateSingleGame(order)
-		count += result
+		go func(order []string) {
+			defer wg.Done()
+			result, _ := SimulateSingleGame(order)
+			count += result
+		}(order)
 	}
+
+	wg.Wait()
 	return count
 }
