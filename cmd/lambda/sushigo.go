@@ -165,6 +165,7 @@ func SimulateSingleGame(cards []string) (int, []string) {
 // SimulateGames docs
 func SimulateGames(order []string, nSim int) int {
 	var wg sync.WaitGroup
+	var m sync.Mutex
 	wg.Add(nSim)
 	count := 0
 
@@ -172,7 +173,10 @@ func SimulateGames(order []string, nSim int) int {
 		go func(order []string) {
 			defer wg.Done()
 			result, _ := SimulateSingleGame(order)
+
+			m.Lock()
 			count += result
+			m.Unlock()
 		}(order)
 	}
 
